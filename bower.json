@@ -1,0 +1,30 @@
+{
+    "name": "img-info",
+    "version": "1.0.0",
+    "authors": [
+        "Kevin Boxhoorn <kevin@sarox.com.au>"
+    ],
+    "description": "A Polymer element for displaying an image with a revealing information panel.",
+    "keywords": [
+        "web-component",
+        "web-components",
+        "polymer",
+        "img"
+    ],
+    "main": "img-info.html",
+    "license": "http://sarox.com.au/LICENSE",
+    "homepage": "https://github.com/wincinderith/img-info/",
+    "ignore": [
+        "/.*",
+        "/test/",
+        "/demo/"
+    ],
+    "dependencies": {
+        "polymer": "Polymer/polymer#^1.0.0",
+        "paper-material": "PolymerElements/paper-material#^1.0.0"
+    },
+    "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+        "web-component-tester": "*"
+    }
+}

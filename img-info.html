@@ -1,0 +1,105 @@
+<!doctype html>
+
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="img-info">
+	<style>
+		:host {
+			display: block;
+			margin: 8px;
+			cursor: pointer;
+			max-width: 100%;
+		}
+		
+		p {
+			position: absolute;
+			left: 0; bottom: 0; right: 0;
+			padding: 8px; margin: 0;
+			height: 19px;
+			
+			font-family: var(--img-info-font);
+			text-align: center;
+			background: var(--img-info-background);
+			color: var(--img-info-color);
+			
+			transition: height .2s ease, background .2s ease;
+		}
+		@media only screen and (min-width: 752px) {
+			:host:hover p {
+				height: calc(50% - 16px);
+				background: var(--img-info-background-transparent);
+			}
+		}
+
+		paper-material {
+			border-radius: 2px;
+			overflow: hidden;
+		}
+		img {
+			display: block;
+			transition: all .2s ease;
+			max-width: 100%;
+			object-fit: cover;
+		}
+	</style>
+	
+	<template>
+		<paper-material animated elevation="0">
+			<a href="{{href}}">
+				<img src$="{{src}}" height$="{{height}}" width$="{{width}}">
+				<p><b>{{title}}</b><br><br>{{info}}</p>
+			</a>
+		</paper-material>
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: "img-info",
+
+		properties: {
+			href: String,
+			src: String,
+			title: String,
+			info: String,
+			width: {
+				type: Number,
+				observer: "widthChanged"
+			},
+			height: {
+				type: Number,
+				observer: "heightChanged"
+			}
+		},
+		widthChanged: function (newValue, oldValue) {
+			if (newValue > 720) {
+				this.width = 720;
+			} else if (newValue < 0) {
+				this.width = 0;
+			}
+		},
+		heightChanged: function (newValue, oldValue) {
+			if (newValue > 480) {
+				this.height = 480;
+			} else if (newValue < 0) {
+				this.height = 0;
+			}
+		}
+
+		listeners: {
+			"mouseover": "mouseOver",
+			"mouseout": "mouseOut",
+			"tap": "onTap"
+		},
+		mouseOver: function () {
+			this.$$("paper-material").elevation = 1;
+		},
+		mouseOut: function () {
+			this.$$("paper-material").elevation = 0;
+		},
+		onTap: function () {
+			this.fire("img-info-tap");
+		}
+	});
+</script>
