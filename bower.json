@@ -16,7 +16,6 @@
     "homepage": "https://github.com/wincinderith/img-info/",
     "ignore": [
         "/.*",
-        "/test/",
         "/demo/"
     ],
     "dependencies": {

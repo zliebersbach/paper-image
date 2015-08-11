@@ -1,12 +1,58 @@
 <!doctype html>
+<!--
+Copyright 2015 Sarox
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
 
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../polymer/polymer.html">
 
+<!--
+`img-info` is an element for displaying an image with a revealing information panel. It also lifts off the page when the user hovers over it.
+
+The panel can be disabled with `panel-disabled` and the elevation can be disabled with `elevation-disabled`. Otherwise, both of these features can be disabled through the `disabled` attribute.
+
+Examples:
+
+At it's most basic form the element should be used like so:
+
+    <img-info src="example.png" title="Example" info="Here's some example text, here for the sole purpose of being an example."></img-info>
+
+You can set a width and height, just like the standard `img` tag:
+
+    <img-info src="example.png" height="256" width="512"></img-info>
+
+There is also a `href` attribute that turns the `img-info` into a link:
+
+    <img-info src="example.png" href="//www.example.com"></img-info>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--img-info-color` | Text color | `--accent-color`
+`--img-info-background` | Background color of the panel | `--default-primary-color`
+`--img-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
+`--img-info-font` | Text font | `inherit`
+`--img-info-img` | Mixin applied to the image | `{}`
+-->
 <dom-module id="img-info">
 	<style>
 		:host {
-			display: block;
+			display: inline-block;
 			margin: 8px;
 			cursor: pointer;
 			max-width: 100%;
@@ -18,19 +64,27 @@
 			padding: 8px; margin: 0;
 			height: 19px;
 			
-			font-family: var(--img-info-font);
+			font-family: var(--img-info-font, inherit);
 			text-align: center;
-			background: var(--img-info-background);
-			color: var(--img-info-color);
+			background: var(--img-info-background, --default-primary-color);
+			color: var(--img-info-color, --accent-color);
 			
 			transition: height .2s ease, background .2s ease;
 		}
 		@media only screen and (min-width: 752px) {
 			:host:hover p {
 				height: calc(50% - 16px);
-				background: var(--img-info-background-transparent);
+				background: var(--img-info-background-revealed, --default-primary-color);
 			}
 		}
+        :host(.panel-disabled) p {
+            display: none;
+        }
+
+        a {
+            color: var(--img-info-color, --accent-color);
+            text-decoration: none;
+        }
 
 		paper-material {
 			border-radius: 2px;
@@ -41,13 +95,14 @@
 			transition: all .2s ease;
 			max-width: 100%;
 			object-fit: cover;
+            @apply(--img-info-img);
 		}
 	</style>
 	
 	<template>
 		<paper-material animated elevation="0">
 			<a href="{{href}}">
-				<img src$="{{src}}" height$="{{height}}" width$="{{width}}">
+				<img src$="{{src}}" height$="{{height}}" width$="{{width}}" alt$="{{title}}">
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
@@ -59,46 +114,76 @@
 		is: "img-info",
 
 		properties: {
+			/** The URL the element points to. */
 			href: String,
+			/** The URL of an image. */
 			src: String,
+			/** The title of the image, displayed in a small bar at the base of the image and placed on the image's alt attribute */
 			title: String,
+			/** Information to display in the revealing panel when the user hovers over the element. */
 			info: String,
+			/** Sets the width of the image. */
 			width: {
 				type: Number,
-				observer: "widthChanged"
+				observer: "_widthChanged"
 			},
+			/** Sets the height of the image. */
 			height: {
 				type: Number,
-				observer: "heightChanged"
+				observer: "_heightChanged"
+			},
+
+			/** Disables the revealing panel. */
+			panelDisabled: {
+			    type: Boolean,
+			    observer: "_panelDisabledObserver"
+			},
+			/** Disables the elevation effect. */
+			elevationDisabled: Boolean,
+			/** Disables the revealing panel and elevation effect. */
+			disabled: {
+			    type: Boolean,
+			    observer: "_disabledObserver"
 			}
 		},
-		widthChanged: function (newValue, oldValue) {
+		_widthChanged: function (newValue, oldValue) {
 			if (newValue > 720) {
 				this.width = 720;
 			} else if (newValue < 0) {
 				this.width = 0;
 			}
 		},
-		heightChanged: function (newValue, oldValue) {
+		_heightChanged: function (newValue, oldValue) {
 			if (newValue > 480) {
 				this.height = 480;
 			} else if (newValue < 0) {
 				this.height = 0;
 			}
-		}
+		},
+		_panelDisabledObserver: function (newValue, oldValue) {
+		    this.toggleClass("panel-disabled", newValue);
+		},
+		_disabledObserver: function (newValue, oldValue) {
+		    this.panelDisabled = newValue;
+		    this.elevationDisabled = newValue;
+		},
 
 		listeners: {
-			"mouseover": "mouseOver",
-			"mouseout": "mouseOut",
-			"tap": "onTap"
+			"mouseover": "_mouseOver",
+			"mouseout": "_mouseOut",
+			"tap": "_onTap"
 		},
-		mouseOver: function () {
-			this.$$("paper-material").elevation = 1;
+		_mouseOver: function () {
+		    if (!this.elevationDisabled) {
+			    this.$$("paper-material").elevation = 1;
+			}
 		},
-		mouseOut: function () {
-			this.$$("paper-material").elevation = 0;
+		_mouseOut: function () {
+		    if (!this.elevationDisabled) {
+			    this.$$("paper-material").elevation = 0;
+			}
 		},
-		onTap: function () {
+		_onTap: function () {
 			this.fire("img-info-tap");
 		}
 	});

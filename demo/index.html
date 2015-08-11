@@ -1,36 +1,68 @@
 <!doctype html>
 <!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+Copyright 2015 Sarox
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 -->
+
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>seed-element Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../seed-element.html">
-  </head>
-  <body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>img-info demo</title>
 
-    <p>An example of <code>&lt;seed-element&gt;</code>:</p>
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <link rel="import" href="../img-info.html">
 
-    <button>Say Something</button>
+        <style is="custom-style">
+            :root {
+                --default-primary-color: #3F51B5;
+                --accent-color: #FFC107;
+            }
 
-    <seed-element author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello seed-element</h2>
-    </seed-element>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            img-info {
+                --img-info-img: {
+                    max-width: 768px;
+                }
+            }
+        </style>
+    </head>
 
-    <script>
-      document.querySelector('button').addEventListener('click', function() {
-        alert(document.querySelector('seed-element').sayHello('Hallo!'));
-      });
-    </script>
+    <body>
+        <h3>plain example</h3>
+        <img-info id="example-plain" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example."></img-info>
 
-  </body>
+        <h3>size example</h3>
+        <img-info id="example-size" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." height="256" width="512"></img-info>
+
+        <h3>href example</h3>
+        <img-info id="example-href" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." href="//www.example.com"></img-info>
+
+        <h3>disabled example</h3>
+        <img-info id="example-disabled" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." disabled></img-info>
+
+        <script>
+            var imgInfos = Array.prototype.slice.call(document.querySelectorAll("img-info"));
+            imgInfos.forEach(function (imgInfo) {
+                imgInfo.addEventListener("img-info-tap", function (event) {
+                    console.log("img-info-tap on " + this.id);
+                });
+            });
+        </script>
+    </body>
 </html>
