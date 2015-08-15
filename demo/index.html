@@ -19,10 +19,10 @@ limitations under the License.
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>img-info demo</title>
+        <title>iron-image-info demo</title>
 
         <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-        <link rel="import" href="../img-info.html">
+        <link rel="import" href="../iron-image-info.html">
 
         <style is="custom-style">
             :root {
@@ -35,9 +35,10 @@ limitations under the License.
                 flex-direction: column;
                 align-items: center;
             }
-            img-info {
-                --img-info-img: {
+            iron-image-info {
+                --iron-image-info-image: {
                     max-width: 768px;
+                    max-height: 512px;
                 }
             }
         </style>
@@ -45,22 +46,22 @@ limitations under the License.
 
     <body>
         <h3>plain example</h3>
-        <img-info id="example-plain" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example."></img-info>
+        <iron-image-info id="example-plain" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example."></iron-image-info>
 
         <h3>size example</h3>
-        <img-info id="example-size" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." height="256" width="512"></img-info>
+        <iron-image-info id="example-size" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." height="256" width="512" sizing="cover" position="right"></iron-image-info>
 
         <h3>href example</h3>
-        <img-info id="example-href" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." href="//www.example.com"></img-info>
+        <iron-image-info id="example-href" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." href="//www.example.com"></iron-image-info>
 
         <h3>disabled example</h3>
-        <img-info id="example-disabled" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." disabled></img-info>
+        <iron-image-info id="example-disabled" src="example.png" title="example" info="here's some example text, here for the sole purpose of being an example." disabled></iron-image-info>
 
         <script>
-            var imgInfos = Array.prototype.slice.call(document.querySelectorAll("img-info"));
-            imgInfos.forEach(function (imgInfo) {
-                imgInfo.addEventListener("img-info-tap", function (event) {
-                    console.log("img-info-tap on " + this.id);
+            var imageInfos = Array.prototype.slice.call(document.querySelectorAll("iron-image-info"));
+            imageInfos.forEach(function (imageInfo) {
+                imageInfo.addEventListener("iron-image-info-tap", function (event) {
+                    console.log("iron-image-info-tap on " + this.id);
                 });
             });
         </script>

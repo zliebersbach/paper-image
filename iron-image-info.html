@@ -15,11 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="../iron-image/iron-image.html">
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-`img-info` is an element for displaying an image with a revealing information panel. It also lifts off the page when the user hovers over it.
+`iron-image-info` is an element for displaying an image with a revealing information panel. It also lifts off the page when the user hovers over it. `iron-image-info` should be sized if the `sizing` attribute is used.
 
 The panel can be disabled with `panel-disabled` and the elevation can be disabled with `elevation-disabled`. Otherwise, both of these features can be disabled through the `disabled` attribute.
 
@@ -27,15 +28,15 @@ Examples:
 
 At it's most basic form the element should be used like so:
 
-    <img-info src="example.png" title="Example" info="Here's some example text, here for the sole purpose of being an example."></img-info>
+    <iron-image-info src="example.png" title="Example" info="Here's some example text, here for the sole purpose of being an example."></iron-image-info>
 
-You can set a width and height, just like the standard `img` tag:
+You can set a width and height, just like the standard `img` tag, as well as choose the sizing and position of the image:
 
-    <img-info src="example.png" height="256" width="512"></img-info>
+    <iron-image-info src="example.png" height="256" width="512" sizing="cover" position="right"></iron-image-info>
 
-There is also a `href` attribute that turns the `img-info` into a link:
+There is also a `href` attribute that turns the `iron-image-info` into a link:
 
-    <img-info src="example.png" href="//www.example.com"></img-info>
+    <iron-image-info src="example.png" href="//www.example.com"></iron-image-info>
 
 ### Styling
 
@@ -43,20 +44,23 @@ The following custom properties and mixins are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--img-info-color` | Text color | `--accent-color`
-`--img-info-background` | Background color of the panel | `--default-primary-color`
-`--img-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
-`--img-info-font` | Text font | `inherit`
-`--img-info-img` | Mixin applied to the image | `{}`
+`--iron-image-info-color` | Text color | `--accent-color`
+`--iron-image-info-background` | Background color of the panel | `--default-primary-color`
+`--iron-image-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
+`--iron-image-info-font` | Text font | `inherit`
+`--iron-image-info-image` | Mixin applied to the `iron-image` | `{}`
+`--iron-image-info-panel-revealed` | Mixin applied to the panel when revealed | `{}`
 -->
-<dom-module id="img-info">
+<dom-module id="iron-image-info">
 	<style>
 		:host {
 			display: inline-block;
 			margin: 8px;
-			cursor: pointer;
 			max-width: 100%;
 		}
+        a[href] :host {
+            cursor: pointer;
+        }
 		
 		p {
 			position: absolute;
@@ -64,17 +68,18 @@ Custom property | Description | Default
 			padding: 8px; margin: 0;
 			height: 19px;
 			
-			font-family: var(--img-info-font, inherit);
+			font-family: var(--iron-image-info-font, inherit);
 			text-align: center;
-			background: var(--img-info-background, --default-primary-color);
-			color: var(--img-info-color, --accent-color);
+			background: var(--iron-image-info-background, --default-primary-color);
+			color: var(--iron-image-info-color, --accent-color);
 			
 			transition: height .2s ease, background .2s ease;
 		}
 		@media only screen and (min-width: 752px) {
 			:host:hover p {
+                @apply(--iron-image-info-panel-revealed);
 				height: calc(50% - 16px);
-				background: var(--img-info-background-revealed, --default-primary-color);
+				background: var(--iron-image-info-background-revealed, --default-primary-color);
 			}
 		}
         :host(.panel-disabled) p {
@@ -82,7 +87,7 @@ Custom property | Description | Default
         }
 
         a {
-            color: var(--img-info-color, --accent-color);
+            color: var(--iron-image-info-color, --accent-color);
             text-decoration: none;
         }
 
@@ -90,19 +95,18 @@ Custom property | Description | Default
 			border-radius: 2px;
 			overflow: hidden;
 		}
-		img {
-			display: block;
+		iron-image {
+            @apply(--iron-image-info-image);
 			transition: all .2s ease;
 			max-width: 100%;
-			object-fit: cover;
-            @apply(--img-info-img);
+            background: var(--iron-image-info-background, --default-primary-color);
 		}
 	</style>
 	
 	<template>
 		<paper-material animated elevation="0">
 			<a href="{{href}}">
-				<img src$="{{src}}" height$="{{height}}" width$="{{width}}" alt$="{{title}}">
+				<iron-image src$="{{src}}" height$="{{height}}" width$="{{width}}" preload fade sizing$="{{sizing}}" position$="{{position}}"></iron-image>
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
@@ -111,7 +115,7 @@ Custom property | Description | Default
 
 <script>
 	Polymer({
-		is: "img-info",
+		is: "iron-image-info",
 
 		properties: {
 			/** The URL the element points to. */
@@ -132,6 +136,10 @@ Custom property | Description | Default
 				type: Number,
 				observer: "_heightChanged"
 			},
+			/** Sets the sizing mode of the image. */
+			sizing: String,
+			/** Sets the position of the image when the `sizing` attribute is used. */
+			position: String,
 
 			/** Disables the revealing panel. */
 			panelDisabled: {
@@ -184,7 +192,7 @@ Custom property | Description | Default
 			}
 		},
 		_onTap: function () {
-			this.fire("img-info-tap");
+			this.fire("iron-image-info-tap");
 		}
 	});
 </script>

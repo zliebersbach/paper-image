@@ -1,5 +1,5 @@
 {
-    "name": "img-info",
+    "name": "iron-image-info",
     "version": "1.0.0",
     "authors": [
         "Kevin Boxhoorn <kevin@sarox.com.au>"
@@ -11,15 +11,16 @@
         "polymer",
         "img"
     ],
-    "main": "img-info.html",
+    "main": "iron-image-info.html",
     "license": "http://sarox.com.au/LICENSE",
-    "homepage": "https://github.com/wincinderith/img-info/",
+    "homepage": "https://github.com/wincinderith/iron-image-info/",
     "ignore": [
         "/.*",
         "/demo/"
     ],
     "dependencies": {
         "polymer": "Polymer/polymer#^1.0.0",
+        "iron-image": "PolymerElements/iron-image#^1.0.0",
         "paper-material": "PolymerElements/paper-material#^1.0.0"
     },
     "devDependencies": {
