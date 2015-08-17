@@ -93,14 +93,14 @@ Custom property | Description | Default
             color: var(--iron-image-info-color, --accent-color);
             text-decoration: none;
         }
+        :host(.link-disabled) a {
+            pointer-events: none;
+        }
 
 		paper-material {
 			border-radius: 2px;
 			overflow: hidden;
 		}
-        :host(.link-disabled) paper-material {
-            pointer-events: none;
-        }
 
         img {
             @apply(--iron-image-info-image);
