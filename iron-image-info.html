@@ -21,7 +21,7 @@ limitations under the License.
 <!--
 `iron-image-info` is an element for displaying an image with a revealing information panel. It also lifts off the page when the user hovers over it.
 
-The panel can be disabled with `panel-disabled` and the elevation can be disabled with `elevation-disabled`. Otherwise, both of these features can be disabled through the `disabled` attribute.
+The panel can be disabled with `panel-disabled` and the elevation can be disabled with `elevation-disabled`. Otherwise, both of these features can be disabled through the `disabled` attribute. The element's link can also be disabled through the `link-disabled` attribute or class.
 
 Examples:
 
@@ -36,6 +36,10 @@ You can set a width and height, just like the standard `img` tag:
 There is also a `href` attribute that turns the `iron-image-info` into a link:
 
     <iron-image-info src="example.png" href="//www.example.com"></iron-image-info>
+
+Here is an example of the `disabled` attribute:
+
+    <iron-image-info src="example.png" disabled></iron-image-info>
 
 ### Styling
 
@@ -71,7 +75,7 @@ Custom property | Description | Default
 			text-align: center;
 			background: var(--iron-image-info-background, --default-primary-color);
 			color: var(--iron-image-info-color, --accent-color);
-			
+
 			transition: height .2s ease, background .2s ease;
 		}
 		@media only screen and (min-width: 752px) {
@@ -85,7 +89,7 @@ Custom property | Description | Default
             display: none;
         }
 
-        a {
+        a, a:link, a:visited, a:hover, a:active {
             color: var(--iron-image-info-color, --accent-color);
             text-decoration: none;
         }
@@ -94,18 +98,24 @@ Custom property | Description | Default
 			border-radius: 2px;
 			overflow: hidden;
 		}
-		img {
+        :host(.link-disabled) paper-material {
+            pointer-events: none;
+        }
+
+        img {
             @apply(--iron-image-info-image);
+            display: block;
 			transition: all .2s ease;
 			max-width: 100%;
             background: var(--iron-image-info-background, --default-primary-color);
+			object-fit: cover;
 		}
 	</style>
 	
 	<template>
 		<paper-material animated elevation="0">
-			<a href="{{href}}">
-				<img src$="{{src}}" height$="{{height}}" width$="{{width}}">
+			<a href="{{href}}" target="_blank">
+				<img src$="{{src}}" height$="{{height}}" width$="{{width}}" alt$="{{title}}">
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
@@ -147,6 +157,11 @@ Custom property | Description | Default
 			disabled: {
 			    type: Boolean,
 			    observer: "_disabledObserver"
+			},
+			/** Disables the image link if it exists. */
+			linkDisabled: {
+			    type: Boolean,
+			    observer: "_linkDisabledObserver"
 			}
 		},
 		_widthChanged: function (newValue, oldValue) {
@@ -169,6 +184,9 @@ Custom property | Description | Default
 		_disabledObserver: function (newValue, oldValue) {
 		    this.panelDisabled = newValue;
 		    this.elevationDisabled = newValue;
+		},
+		_linkDisabledObserver: function (newValue, oldValue) {
+		    this.toggleClass("link-disabled", newValue);
 		},
 
 		listeners: {
