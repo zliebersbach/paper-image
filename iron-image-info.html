@@ -61,6 +61,9 @@ Custom property | Description | Default
 			margin: 8px;
 			max-width: 100%;
 		}
+        :host(.link-disabled) {
+            cursor: default;
+        }
         a[href] :host {
             cursor: pointer;
         }
@@ -93,15 +96,14 @@ Custom property | Description | Default
             color: var(--iron-image-info-color, --accent-color);
             text-decoration: none;
         }
+        :host(.link-disabled) a {
+            pointer-events: none;
+        }
 
 		paper-material {
 			border-radius: 2px;
 			overflow: hidden;
 		}
-        :host(.link-disabled) paper-material {
-            pointer-events: none;
-            cursor: default;
-        }
 
         img {
             @apply(--iron-image-info-image);
@@ -115,7 +117,7 @@ Custom property | Description | Default
 	<template>
 		<paper-material animated elevation="0">
 			<a href="{{href}}">
-				<img src$="{{src}}" height$="{{height}}" width$="{{width}}">
+				<img src$="{{src}}" height$="{{height}}" width$="{{width}}" alt$="{{title}}">
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
