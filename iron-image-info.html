@@ -52,6 +52,7 @@ Custom property | Description | Default
 `--iron-image-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
 `--iron-image-info-font` | Text font | `inherit`
 `--iron-image-info-image` | Mixin applied to the image | `{}`
+`--iron-image-info-panel` | Mixin applied to the panel | `{}`
 `--iron-image-info-panel-revealed` | Mixin applied to the panel when revealed | `{}`
 -->
 <dom-module id="iron-image-info">
@@ -66,6 +67,8 @@ Custom property | Description | Default
         }
 		
 		p {
+            @apply(--iron-image-info-panel);
+
 			position: absolute;
 			left: 0; bottom: 0; right: 0;
 			padding: 8px; margin: 0;
@@ -114,8 +117,8 @@ Custom property | Description | Default
 	
 	<template>
 		<paper-material animated elevation="0">
-			<a href="{{href}}" target="_blank">
-				<img src$="{{src}}" height$="{{height}}" width$="{{width}}" alt$="{{title}}">
+			<a href="[[href]]" target="[[linkTarget]]">
+				<img src="[[src]]" height="[[height]]" width="[[width]]" alt="[[title]]">
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
@@ -162,6 +165,11 @@ Custom property | Description | Default
 			linkDisabled: {
 			    type: Boolean,
 			    observer: "_linkDisabledObserver"
+			},
+			/** Sets the `target` attribute of the image link. */
+			linkTarget: {
+			    type: String,
+			    value: "_blank"
 			}
 		},
 		_widthChanged: function (newValue, oldValue) {
