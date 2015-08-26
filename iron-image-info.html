@@ -67,9 +67,7 @@ Custom property | Description | Default
         }
 		
 		p {
-            @apply(--iron-image-info-panel);
-
-			position: absolute;
+            position: absolute;
 			left: 0; bottom: 0; right: 0;
 			padding: 8px; margin: 0;
 			height: 19px;
@@ -80,12 +78,15 @@ Custom property | Description | Default
 			color: var(--iron-image-info-color, --accent-color);
 
 			transition: height .2s ease, background .2s ease;
-		}
+
+            @apply(--iron-image-info-panel);
+        }
 		@media only screen and (min-width: 752px) {
 			:host:hover p {
-                @apply(--iron-image-info-panel-revealed);
 				height: calc(50% - 16px);
 				background: var(--iron-image-info-background-revealed, --default-primary-color);
+
+                @apply(--iron-image-info-panel-revealed);
 			}
 		}
         :host(.panel-disabled) p {
@@ -106,12 +107,13 @@ Custom property | Description | Default
         }
 
         img {
-            @apply(--iron-image-info-image);
             display: block;
 			transition: all .2s ease;
 			max-width: 100%;
             background: var(--iron-image-info-background, --default-primary-color);
 			object-fit: cover;
+
+            @apply(--iron-image-info-image);
 		}
 	</style>
 	
