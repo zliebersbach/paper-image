@@ -1,6 +1,6 @@
 {
     "name": "iron-image-info",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "authors": [
         "Kevin Boxhoorn <kevin@sarox.com.au>"
     ],
@@ -9,10 +9,12 @@
         "web-component",
         "web-components",
         "polymer",
-        "img"
+        "iron",
+        "image",
+        "info"
     ],
     "main": "iron-image-info.html",
-    "license": "http://sarox.com.au/LICENSE",
+    "license": "http://wincinderith.github.io/iron-image-info/components/iron-image-info/LICENSE",
     "homepage": "https://github.com/wincinderith/iron-image-info/",
     "ignore": [
         "/.*",
