@@ -66,13 +66,13 @@ Custom property | Description | Default
         a[href] :host {
             cursor: pointer;
         }
-		
+
 		p {
             position: absolute;
 			left: 0; bottom: 0; right: 0;
 			padding: 8px; margin: 0;
 			height: 19px;
-			
+
 			font-family: var(--iron-image-info-font, inherit);
 			text-align: center;
 			background: var(--iron-image-info-background, --default-primary-color);
@@ -117,11 +117,11 @@ Custom property | Description | Default
             @apply(--iron-image-info-image);
 		}
 	</style>
-	
+
 	<template>
 		<paper-material animated elevation="0">
-			<a href="[[href]]" target="[[linkTarget]]">
-				<img src="[[src]]" height="[[height]]" width="[[width]]" alt="[[title]]">
+			<a href$="[[href]]" target="[[linkTarget]]">
+				<img id="image" src="[[src]]" alt="[[title]]">
 				<p><b>{{title}}</b><br><br>{{info}}</p>
 			</a>
 		</paper-material>
@@ -181,12 +181,22 @@ Custom property | Description | Default
 			} else if (newValue < 0) {
 				this.width = 0;
 			}
+			if (this.height === 0) {
+				this.$.image.style.width = "initial";
+			} else {
+				this.$.image.style.width = this.width + "px";
+			}
 		},
 		_heightChanged: function (newValue, oldValue) {
 			if (newValue > 480) {
 				this.height = 480;
 			} else if (newValue < 0) {
 				this.height = 0;
+			}
+			if (this.height === 0) {
+				this.$.image.style.height = "initial";
+			} else {
+				this.$.image.style.height = this.height + "px";
 			}
 		},
 		_panelDisabledObserver: function (newValue, oldValue) {
