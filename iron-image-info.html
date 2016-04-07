@@ -68,10 +68,18 @@ Custom property | Description | Default
         }
 
 		p {
+			padding: 8px; margin: 0;
+		}
+		#title {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: calc(100% - 16px);
+		}
+		#panel {
             position: absolute;
 			left: 0; bottom: 0; right: 0;
-			padding: 8px; margin: 0;
-			height: 19px;
+			height: calc(1em + 16px);
 
 			font-family: var(--iron-image-info-font, inherit);
 			text-align: center;
@@ -83,14 +91,14 @@ Custom property | Description | Default
             @apply(--iron-image-info-panel);
         }
 		@media only screen and (min-width: 752px) {
-			:host:hover p {
-				height: calc(50% - 16px);
+			:host:hover #panel {
+				height: calc(50%);
 				background: var(--iron-image-info-background-revealed, --default-primary-color);
 
                 @apply(--iron-image-info-panel-revealed);
 			}
 		}
-        :host(.panel-disabled) p {
+        :host(.panel-disabled) div {
             display: none;
         }
 
@@ -122,7 +130,10 @@ Custom property | Description | Default
 		<paper-material animated elevation="0">
 			<a href$="[[href]]" target="[[linkTarget]]">
 				<img id="image" src="[[src]]" alt="[[title]]">
-				<p><b>{{title}}</b><br><br>{{info}}</p>
+				<div id="panel">
+					<p id="title"><b>{{title}}</b></p>
+					<p>{{info}}</p>
+				</div>
 			</a>
 		</paper-material>
 	</template>
