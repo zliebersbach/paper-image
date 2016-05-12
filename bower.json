@@ -14,7 +14,7 @@
         "info"
     ],
     "main": "iron-image-info.html",
-    "license": "http://wincinderith.github.io/iron-image-info/components/iron-image-info/LICENSE",
+    "license": "Apache-2.0",
     "homepage": "https://github.com/wincinderith/iron-image-info/",
     "ignore": [
         "/.*",
