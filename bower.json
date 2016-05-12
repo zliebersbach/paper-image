@@ -1,31 +1,31 @@
 {
-    "name": "iron-image-info",
-    "version": "1.0.7",
-    "authors": [
-        "Kevin Boxhoorn <kevin@sarox.com.au>"
-    ],
-    "description": "An image element that displays a revealing information panel.",
-    "keywords": [
-        "web-component",
-        "web-components",
-        "polymer",
-        "iron",
-        "image",
-        "info"
-    ],
-    "main": "iron-image-info.html",
-    "license": "Apache-2.0",
-    "homepage": "https://github.com/wincinderith/iron-image-info/",
-    "ignore": [
-        "/.*",
-        "/demo/"
-    ],
-    "dependencies": {
-        "polymer": "Polymer/polymer#^1.0.0",
-        "paper-material": "PolymerElements/paper-material#^1.0.0"
-    },
-    "devDependencies": {
-        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-        "web-component-tester": "*"
-    }
+	"name": "iron-image-info",
+	"version": "1.0.8",
+	"authors": [
+		"Kevin Boxhoorn <kevin@sarox.com.au>"
+	],
+	"description": "An image element that displays a revealing information panel.",
+	"keywords": [
+		"web-component",
+		"web-components",
+		"polymer",
+		"iron",
+		"image",
+		"info"
+	],
+	"main": "iron-image-info.html",
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/wincinderith/iron-image-info/",
+	"ignore": [
+		"/.*",
+		"/demo/"
+	],
+	"dependencies": {
+		"polymer": "Polymer/polymer#^1.0.0",
+		"paper-material": "PolymerElements/paper-material#^1.0.0"
+	},
+	"devDependencies": {
+		"iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+		"web-component-tester": "*"
+	}
 }
