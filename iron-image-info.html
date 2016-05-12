@@ -19,23 +19,30 @@ limitations under the License.
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-`iron-image-info` is an image element that displays a revealing information panel. It also lifts off the page when the user hovers over it.
+`iron-image-info` is an image element that displays a revealing information
+panel. It also lifts off the page when the user hovers over it.
 
-The panel can be disabled with `panel-disabled` and the elevation can be disabled with `elevation-disabled`. Otherwise, both of these features can be disabled through the `disabled` attribute. The element's link can also be disabled through the `link-disabled` attribute or class.
+The panel can be disabled with `panel-disabled` and the elevation can be
+disabled with `elevation-disabled`. Otherwise, both of these features can be
+disabled through the `disabled` attribute. The element's link can also be
+disabled through the `link-disabled` attribute or class.
 
 Examples:
 
 At it's most basic form the element should be used like so:
 
-    <iron-image-info src="example.png" title="Example" info="Here's some example text, here for the sole purpose of being an example."></iron-image-info>
+    <iron-image-info src="example.png" title="Example" info="Here's some example
+    text, here for the sole purpose of being an example."></iron-image-info>
 
 You can set a width and height, just like the standard `img` tag:
 
-    <iron-image-info src="example.png" height="256" width="512"></iron-image-info>
+    <iron-image-info src="example.png" height="256" width="512">
+    </iron-image-info>
 
 There is also a `href` attribute that turns the `iron-image-info` into a link:
 
-    <iron-image-info src="example.png" href="//www.example.com"></iron-image-info>
+    <iron-image-info src="example.png" href="//www.example.com">
+    </iron-image-info>
 
 Here is an example of the `disabled` attribute:
 
@@ -63,9 +70,9 @@ Custom property | Description | Default
 			margin: 8px;
 			max-width: 100%;
 		}
-        a[href] :host {
-            cursor: pointer;
-        }
+		a[href] :host {
+			cursor: pointer;
+		}
 
 		p {
 			padding: 8px; margin: 0;
@@ -77,58 +84,61 @@ Custom property | Description | Default
 			max-width: calc(100% - 16px);
 		}
 		#panel {
-            position: absolute;
+			position: absolute;
 			left: 0; bottom: 0; right: 0;
 			height: calc(1em + 16px);
 
 			font-family: var(--iron-image-info-font, inherit);
 			text-align: center;
-			background: var(--iron-image-info-background, --default-primary-color);
+			background: var(--iron-image-info-background,
+				--default-primary-color);
 			color: var(--iron-image-info-color, --accent-color);
 
 			transition: height .2s ease, background .2s ease;
 
-            @apply(--iron-image-info-panel);
-        }
+			@apply(--iron-image-info-panel);
+		}
 		@media only screen and (min-width: 752px) {
 			:host:hover #panel {
 				height: calc(50%);
-				background: var(--iron-image-info-background-revealed, --default-primary-color);
+				background: var(--iron-image-info-background-revealed,
+					--default-primary-color);
 
-                @apply(--iron-image-info-panel-revealed);
+				@apply(--iron-image-info-panel-revealed);
 			}
 		}
-        :host(.panel-disabled) div {
-            display: none;
-        }
+		:host(.panel-disabled) div {
+			display: none;
+		}
 
-        a, a:link, a:visited, a:hover, a:active {
-            color: var(--iron-image-info-color, --accent-color);
-            text-decoration: none;
-        }
+		a, a:link, a:visited, a:hover, a:active {
+			color: var(--iron-image-info-color, --accent-color);
+			text-decoration: none;
+		}
 
 		paper-material {
 			border-radius: 2px;
 			overflow: hidden;
 			position: relative;
 		}
-        :host(.link-disabled) paper-material {
-            pointer-events: none;
-        }
+		:host(.link-disabled) paper-material {
+			pointer-events: none;
+		}
 
-        img {
-            display: block;
+		img {
+			display: block;
 			transition: all .2s ease;
 			max-width: 100%;
-            background: var(--iron-image-info-background, --default-primary-color);
+			background: var(--iron-image-info-background,
+				--default-primary-color);
 			object-fit: cover;
 
-            @apply(--iron-image-info-image);
+			@apply(--iron-image-info-image);
 		}
 	</style>
 
 	<template>
-		<paper-material animated elevation="0">
+		<paper-material id="material" elevation="0" animated>
 			<a href$="[[href]]" target="[[linkTarget]]">
 				<img id="image" src="[[src]]" alt="[[title]]">
 				<div id="panel">
@@ -149,9 +159,11 @@ Custom property | Description | Default
 			href: String,
 			/** The URL of an image. */
 			src: String,
-			/** The title of the image, displayed in a small bar at the base of the image and placed on the image's alt attribute */
+			/** The title of the image, displayed in a small bar at the base of
+			   the image and placed on the image's alt attribute */
 			title: String,
-			/** Information to display in the revealing panel when the user hovers over the element. */
+			/** Information to display in the revealing panel when the user
+			   hovers over the element. */
 			info: String,
 			/** Sets the width of the image. */
 			width: {
@@ -166,25 +178,25 @@ Custom property | Description | Default
 
 			/** Disables the revealing panel. */
 			panelDisabled: {
-			    type: Boolean,
-			    observer: "_panelDisabledObserver"
+				type: Boolean,
+				observer: "_panelDisabledObserver"
 			},
 			/** Disables the elevation effect. */
 			elevationDisabled: Boolean,
 			/** Disables the revealing panel and elevation effect. */
 			disabled: {
-			    type: Boolean,
-			    observer: "_disabledObserver"
+				type: Boolean,
+				observer: "_disabledObserver"
 			},
 			/** Disables the image link if it exists. */
 			linkDisabled: {
-			    type: Boolean,
-			    observer: "_linkDisabledObserver"
+				type: Boolean,
+				observer: "_linkDisabledObserver"
 			},
 			/** Sets the `target` attribute of the image link. */
 			linkTarget: {
-			    type: String,
-			    value: "_blank"
+				type: String,
+				value: "_blank"
 			}
 		},
 		_widthChanged: function (newValue, oldValue) {
@@ -212,14 +224,14 @@ Custom property | Description | Default
 			}
 		},
 		_panelDisabledObserver: function (newValue, oldValue) {
-		    this.toggleClass("panel-disabled", newValue);
+			this.toggleClass("panel-disabled", newValue);
 		},
 		_disabledObserver: function (newValue, oldValue) {
-		    this.panelDisabled = newValue;
-		    this.elevationDisabled = newValue;
+			this.panelDisabled = newValue;
+			this.elevationDisabled = newValue;
 		},
 		_linkDisabledObserver: function (newValue, oldValue) {
-		    this.toggleClass("link-disabled", newValue);
+			this.toggleClass("link-disabled", newValue);
 		},
 
 		listeners: {
@@ -228,13 +240,13 @@ Custom property | Description | Default
 			"tap": "_onTap"
 		},
 		_mouseOver: function () {
-		    if (!this.elevationDisabled) {
-			    this.$$("paper-material").elevation = 1;
+			if (!this.elevationDisabled) {
+				this.$.material.elevation = 1;
 			}
 		},
 		_mouseOut: function () {
-		    if (!this.elevationDisabled) {
-			    this.$$("paper-material").elevation = 0;
+			if (!this.elevationDisabled) {
+				this.$.material.elevation = 0;
 			}
 		},
 		_onTap: function () {
