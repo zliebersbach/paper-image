@@ -41,6 +41,10 @@ limitations under the License.
 					max-height: 512px;
 				}
 			}
+			iron-image-info.styled {
+				--iron-image-info-color-revealed: var(--default-primary-color);
+				--iron-image-info-background-revealed: var(--accent-color);
+			}
 		</style>
 	</head>
 
@@ -66,6 +70,12 @@ limitations under the License.
 		<iron-image-info id="example-disabled" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example."
 			disabled>
+		</iron-image-info>
+
+		<h3>style example</h3>
+		<iron-image-info id="example-style" src="example.png" title="example"
+			info="here's some example text, here for the sole purpose of being an example."
+			class="styled">
 		</iron-image-info>
 
 		<script>

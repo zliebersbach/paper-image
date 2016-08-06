@@ -55,6 +55,7 @@ The following custom properties and mixins are available for styling:
 Custom property | Description | Default
 ----------------|-------------|----------
 `--iron-image-info-color` | Text color | `--accent-color`
+`--iron-image-info-color-revealed` | Text color when revealed | `--accent-color`
 `--iron-image-info-background` | Background color of the panel | `--default-primary-color`
 `--iron-image-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
 `--iron-image-info-font` | Text font | `inherit`
@@ -103,6 +104,7 @@ Custom property | Description | Default
 				height: calc(50%);
 				background: var(--iron-image-info-background-revealed,
 					--default-primary-color);
+				color: var(--iron-image-info-color-revealed, --accent-color);
 
 				@apply(--iron-image-info-panel-revealed);
 			}
