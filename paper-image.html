@@ -160,7 +160,10 @@ Custom property | Description | Default
 				/** The URL the element points to. */
 				href: String,
 				/** The URL of an image. */
-				src: String,
+				src: {
+					type: String,
+					observer: "_srcChanged"
+				},
 				/** The title of the image, displayed in a small bar at the base of
 				   the image and placed on the image's alt attribute */
 				title: String,
@@ -176,6 +179,29 @@ Custom property | Description | Default
 				height: {
 					type: Number,
 					observer: "_heightChanged"
+				},
+
+				/** Whether the image is currently loading. */
+				loading: {
+					type: Boolean,
+					reflectToAttribute: true,
+					readOnly: true,
+					notify: true,
+					value: false
+				},
+				/** Whether the image failed to load. */
+				error: {
+					type: Boolean,
+					readOnly: true,
+					notify: true,
+					value: false
+				},
+				/** Whether the image has loaded. */
+				loaded: {
+					type: Boolean,
+					readOnly: true,
+					notify: true,
+					value: false
 				},
 
 				/** Disables the revealing panel. */
@@ -201,18 +227,23 @@ Custom property | Description | Default
 					value: "_blank"
 				}
 			},
+			_srcChanged: function() {
+				this._setLoading(true);
+				this._setError(false);
+				this._setLoaded(false);
+			},
 			_widthChanged: function (value) {
-				if (this.height <= 0) {
+				if (value <= 0) {
 					this.$.image.style.width = "initial";
 				} else {
-					this.$.image.style.width = this.width + "px";
+					this.$.image.style.width = value + "px";
 				}
 			},
 			_heightChanged: function (value) {
-				if (this.height <= 0) {
+				if (value <= 0) {
 					this.$.image.style.height = "initial";
 				} else {
-					this.$.image.style.height = this.height + "px";
+					this.$.image.style.height = value + "px";
 				}
 			},
 			_panelDisabledObserver: function (value) {
@@ -226,16 +257,26 @@ Custom property | Description | Default
 			},
 
 			listeners: {
-				"mouseover": "_mouseOver",
-				"mouseout": "_mouseOut",
+				"image.error": "_onError",
+				"image.load": "_onLoad",
+				"mouseover": "_onMouseOver",
+				"mouseout": "_onMouseOut",
 				"tap": "_onTap"
 			},
-			_mouseOver: function () {
+			_onError: function() {
+				this._setLoading(false);
+				this._setError(true);
+			},
+			_onLoad: function() {
+				this._setLoading(false);
+				this._setLoaded(true);
+			},
+			_onMouseOver: function () {
 				if (!this.elevationDisabled) {
 					this.$.material.elevation = 1;
 				}
 			},
-			_mouseOut: function () {
+			_onMouseOut: function () {
 				if (!this.elevationDisabled) {
 					this.$.material.elevation = 0;
 				}
