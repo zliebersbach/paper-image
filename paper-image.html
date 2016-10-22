@@ -59,8 +59,8 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--paper-image-color` | Text color | `--accent-color`
 `--paper-image-color-revealed` | Text color when revealed | `--accent-color`
-`--paper-image-background` | Background color of the panel | `--default-primary-color`
-`--paper-image-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
+`--paper-image-background` | Background color of the panel | `--primary-color`
+`--paper-image-background-revealed` | Background color of the panel when revealed | `--primary-color`
 `--paper-image-font` | Text font | `inherit`
 `--paper-image-image` | Mixin applied to the image | `{}`
 `--paper-image-panel` | Mixin applied to the panel | `{}`
@@ -95,8 +95,7 @@ Custom property | Description | Default
 
 				font-family: var(--paper-image-font, inherit);
 				text-align: center;
-				background: var(--paper-image-background,
-					--default-primary-color);
+				background: var(--paper-image-background, --primary-color);
 				color: var(--paper-image-color, --accent-color);
 
 				transition: height .2s ease, background .2s ease;
@@ -107,7 +106,7 @@ Custom property | Description | Default
 				:host:hover #panel {
 					height: 50%;
 					background: var(--paper-image-background-revealed,
-						--default-primary-color);
+						--primary-color);
 					color: var(--paper-image-color-revealed, --accent-color);
 
 					@apply(--paper-image-panel-revealed);
@@ -135,8 +134,7 @@ Custom property | Description | Default
 				display: block;
 				transition: all .2s ease;
 				max-width: 100%;
-				background: var(--paper-image-background,
-					--default-primary-color);
+				background: var(--paper-image-background, --primary-color);
 				object-fit: cover;
 
 				@apply(--paper-image-image);
