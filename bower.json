@@ -2,7 +2,7 @@
 	"name": "paper-image",
 	"version": "1.0.9",
 	"authors": [
-		"Kevin Boxhoorn <kevin@sarox.com.au>"
+		"Kevin Boxhoorn <kevinboxhoorn@yahoo.com>"
 	],
 	"description": "An image element that displays a revealing information panel.",
 	"keywords": [
@@ -14,7 +14,7 @@
 		"info"
 	],
 	"main": "paper-image.html",
-	"license": "Apache-2.0",
+	"license": "GPL-3.0",
 	"homepage": "https://github.com/wincinderith/paper-image/",
 	"ignore": [
 		"/.*",
