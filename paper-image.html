@@ -19,7 +19,7 @@ limitations under the License.
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-`iron-image-info` is an image element that displays a revealing information
+`paper-image` is an image element that displays a revealing information
 panel. It also lifts off the page when the user hovers over it.
 
 The panel can be disabled with `panel-disabled` and the elevation can be
@@ -31,22 +31,22 @@ Examples:
 
 At it's most basic form the element should be used like so:
 
-    <iron-image-info src="example.png" title="Example" info="Here's some example
-    text, here for the sole purpose of being an example."></iron-image-info>
+    <paper-image src="example.png" title="Example" info="Here's some example
+    text, here for the sole purpose of being an example."></paper-image>
 
 You can set a width and height, just like the standard `img` tag:
 
-    <iron-image-info src="example.png" height="256" width="512">
-    </iron-image-info>
+    <paper-image src="example.png" height="256" width="512">
+    </paper-image>
 
-There is also a `href` attribute that turns the `iron-image-info` into a link:
+There is also a `href` attribute that turns the `paper-image` into a link:
 
-    <iron-image-info src="example.png" href="//www.example.com">
-    </iron-image-info>
+    <paper-image src="example.png" href="//www.example.com">
+    </paper-image>
 
 Here is an example of the `disabled` attribute:
 
-    <iron-image-info src="example.png" disabled></iron-image-info>
+    <paper-image src="example.png" disabled></paper-image>
 
 ### Styling
 
@@ -54,17 +54,17 @@ The following custom properties and mixins are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--iron-image-info-color` | Text color | `--accent-color`
-`--iron-image-info-color-revealed` | Text color when revealed | `--accent-color`
-`--iron-image-info-background` | Background color of the panel | `--default-primary-color`
-`--iron-image-info-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
-`--iron-image-info-font` | Text font | `inherit`
-`--iron-image-info-image` | Mixin applied to the image | `{}`
-`--iron-image-info-panel` | Mixin applied to the panel | `{}`
-`--iron-image-info-panel-revealed` | Mixin applied to the panel when revealed | `{}`
+`--paper-image-color` | Text color | `--accent-color`
+`--paper-image-color-revealed` | Text color when revealed | `--accent-color`
+`--paper-image-background` | Background color of the panel | `--default-primary-color`
+`--paper-image-background-revealed` | Background color of the panel when revealed | `--default-primary-color`
+`--paper-image-font` | Text font | `inherit`
+`--paper-image-image` | Mixin applied to the image | `{}`
+`--paper-image-panel` | Mixin applied to the panel | `{}`
+`--paper-image-panel-revealed` | Mixin applied to the panel when revealed | `{}`
 @demo
 -->
-<dom-module id="iron-image-info">
+<dom-module id="paper-image">
 	<style>
 		:host {
 			display: inline-block;
@@ -89,24 +89,24 @@ Custom property | Description | Default
 			left: 0; bottom: 0; right: 0;
 			height: calc(1em + 16px);
 
-			font-family: var(--iron-image-info-font, inherit);
+			font-family: var(--paper-image-font, inherit);
 			text-align: center;
-			background: var(--iron-image-info-background,
+			background: var(--paper-image-background,
 				--default-primary-color);
-			color: var(--iron-image-info-color, --accent-color);
+			color: var(--paper-image-color, --accent-color);
 
 			transition: height .2s ease, background .2s ease;
 
-			@apply(--iron-image-info-panel);
+			@apply(--paper-image-panel);
 		}
 		@media only screen and (min-width: 752px) {
 			:host:hover #panel {
 				height: calc(50%);
-				background: var(--iron-image-info-background-revealed,
+				background: var(--paper-image-background-revealed,
 					--default-primary-color);
-				color: var(--iron-image-info-color-revealed, --accent-color);
+				color: var(--paper-image-color-revealed, --accent-color);
 
-				@apply(--iron-image-info-panel-revealed);
+				@apply(--paper-image-panel-revealed);
 			}
 		}
 		:host(.panel-disabled) div {
@@ -114,7 +114,7 @@ Custom property | Description | Default
 		}
 
 		a, a:link, a:visited, a:hover, a:active {
-			color: var(--iron-image-info-color, --accent-color);
+			color: var(--paper-image-color, --accent-color);
 			text-decoration: none;
 		}
 
@@ -131,11 +131,11 @@ Custom property | Description | Default
 			display: block;
 			transition: all .2s ease;
 			max-width: 100%;
-			background: var(--iron-image-info-background,
+			background: var(--paper-image-background,
 				--default-primary-color);
 			object-fit: cover;
 
-			@apply(--iron-image-info-image);
+			@apply(--paper-image-image);
 		}
 	</style>
 
@@ -154,7 +154,7 @@ Custom property | Description | Default
 
 <script>
 	Polymer({
-		is: "iron-image-info",
+		is: "paper-image",
 
 		properties: {
 			/** The URL the element points to. */
@@ -252,7 +252,7 @@ Custom property | Description | Default
 			}
 		},
 		_onTap: function () {
-			this.fire("iron-image-info-tap");
+			this.fire("paper-image-tap");
 		}
 	});
 </script>

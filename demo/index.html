@@ -19,10 +19,10 @@ limitations under the License.
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,initial-scale=1.0,user-scalable=yes">
-		<title>iron-image-info demo</title>
+		<title>paper-image demo</title>
 
 		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-		<link rel="import" href="../iron-image-info.html">
+		<link rel="import" href="../paper-image.html">
 
 		<style is="custom-style">
 			:root {
@@ -35,56 +35,56 @@ limitations under the License.
 				flex-direction: column;
 				align-items: center;
 			}
-			iron-image-info {
-				--iron-image-info-image: {
+			paper-image {
+				--paper-image-image: {
 					max-width: 768px;
 					max-height: 512px;
 				}
 			}
-			iron-image-info.styled {
-				--iron-image-info-color-revealed: var(--default-primary-color);
-				--iron-image-info-background-revealed: var(--accent-color);
+			paper-image.styled {
+				--paper-image-color-revealed: var(--default-primary-color);
+				--paper-image-background-revealed: var(--accent-color);
 			}
 		</style>
 	</head>
 
 	<body>
 		<h3>plain example</h3>
-		<iron-image-info id="example-plain" src="example.png" title="example"
+		<paper-image id="example-plain" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example.">
-		</iron-image-info>
+		</paper-image>
 
 		<h3>size example</h3>
-		<iron-image-info id="example-size" src="example.png" title="example"
+		<paper-image id="example-size" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example."
 			height="256" width="512">
-		</iron-image-info>
+		</paper-image>
 
 		<h3>href example</h3>
-		<iron-image-info id="example-href" src="example.png" title="example"
+		<paper-image id="example-href" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example."
 			href="//www.example.com">
-		</iron-image-info>
+		</paper-image>
 
 		<h3>disabled example</h3>
-		<iron-image-info id="example-disabled" src="example.png" title="example"
+		<paper-image id="example-disabled" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example."
 			disabled>
-		</iron-image-info>
+		</paper-image>
 
 		<h3>style example</h3>
-		<iron-image-info id="example-style" src="example.png" title="example"
+		<paper-image id="example-style" src="example.png" title="example"
 			info="here's some example text, here for the sole purpose of being an example."
 			class="styled">
-		</iron-image-info>
+		</paper-image>
 
 		<script>
 			var imageInfos = Array.prototype.slice.call(
-				document.querySelectorAll("iron-image-info")
+				document.querySelectorAll("paper-image")
 			);
 			imageInfos.forEach(function (imageInfo) {
-				imageInfo.addEventListener("iron-image-info-tap", function () {
-					console.log("iron-image-info-tap on " + this.id);
+				imageInfo.addEventListener("paper-image-tap", function () {
+					console.log("paper-image-tap on " + this.id);
 				});
 			});
 		</script>
