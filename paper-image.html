@@ -29,26 +29,27 @@ disabled with `elevation-disabled`. Otherwise, both of these features can be
 disabled through the `disabled` attribute. The element's link can also be
 disabled through the `link-disabled` attribute or class.
 
-Examples:
+### Examples
 
-At it's most basic form the element should be used like so:
+In it's most basic form the element should be used like so:
 
-    <paper-image src="example.png" title="Example" info="Here's some example
-    text, here for the sole purpose of being an example."></paper-image>
+    <paper-image src="demo.jpg" title="demo"
+        info="here's some demo text, here for the sole purpose of being a demo.">
+    </paper-image>
 
 You can set a width and height, just like the standard `img` tag:
 
-    <paper-image src="example.png" height="256" width="512">
+    <paper-image src="demo.jpg" height="256" width="512">
     </paper-image>
 
 There is also a `href` attribute that turns the `paper-image` into a link:
 
-    <paper-image src="example.png" href="//www.example.com">
+    <paper-image src="demo.jpg" href="//www.example.com">
     </paper-image>
 
 Here is an example of the `disabled` attribute:
 
-    <paper-image src="example.png" disabled></paper-image>
+    <paper-image src="demo.jpg" disabled></paper-image>
 
 ### Styling
 
@@ -67,81 +68,81 @@ Custom property | Description | Default
 @demo
 -->
 <dom-module id="paper-image">
-	<style>
-		:host {
-			display: inline-block;
-			margin: 8px;
-			max-width: 100%;
-		}
-		a[href] :host {
-			cursor: pointer;
-		}
-
-		p {
-			padding: 8px; margin: 0;
-		}
-		#title {
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: calc(100% - 16px);
-		}
-		#panel {
-			position: absolute;
-			left: 0; bottom: 0; right: 0;
-			height: calc(1em + 16px);
-
-			font-family: var(--paper-image-font, inherit);
-			text-align: center;
-			background: var(--paper-image-background,
-				--default-primary-color);
-			color: var(--paper-image-color, --accent-color);
-
-			transition: height .2s ease, background .2s ease;
-
-			@apply(--paper-image-panel);
-		}
-		@media only screen and (min-width: 752px) {
-			:host:hover #panel {
-				height: calc(50%);
-				background: var(--paper-image-background-revealed,
-					--default-primary-color);
-				color: var(--paper-image-color-revealed, --accent-color);
-
-				@apply(--paper-image-panel-revealed);
-			}
-		}
-		:host(.panel-disabled) div {
-			display: none;
-		}
-
-		a, a:link, a:visited, a:hover, a:active {
-			color: var(--paper-image-color, --accent-color);
-			text-decoration: none;
-		}
-
-		paper-material {
-			border-radius: 2px;
-			overflow: hidden;
-			position: relative;
-		}
-		:host(.link-disabled) paper-material {
-			pointer-events: none;
-		}
-
-		img {
-			display: block;
-			transition: all .2s ease;
-			max-width: 100%;
-			background: var(--paper-image-background,
-				--default-primary-color);
-			object-fit: cover;
-
-			@apply(--paper-image-image);
-		}
-	</style>
-
 	<template>
+		<style>
+			:host {
+				display: inline-block;
+				margin: 8px;
+				max-width: 100%;
+			}
+			a[href] :host {
+				cursor: pointer;
+			}
+
+			p {
+				padding: 8px; margin: 0;
+			}
+			#title {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				max-width: calc(100% - 16px);
+			}
+			#panel {
+				position: absolute;
+				left: 0; bottom: 0; right: 0;
+				height: calc(1em + 16px);
+
+				font-family: var(--paper-image-font, inherit);
+				text-align: center;
+				background: var(--paper-image-background,
+					--default-primary-color);
+				color: var(--paper-image-color, --accent-color);
+
+				transition: height .2s ease, background .2s ease;
+
+				@apply(--paper-image-panel);
+			}
+			@media only screen and (min-width: 752px) {
+				:host:hover #panel {
+					height: 50%;
+					background: var(--paper-image-background-revealed,
+						--default-primary-color);
+					color: var(--paper-image-color-revealed, --accent-color);
+
+					@apply(--paper-image-panel-revealed);
+				}
+			}
+			:host(.panel-disabled) #panel {
+				display: none;
+			}
+
+			a, a:link, a:visited, a:hover, a:active {
+				color: var(--paper-image-color, --accent-color);
+				text-decoration: none;
+			}
+
+			#material {
+				border-radius: 2px;
+				overflow: hidden;
+				position: relative;
+			}
+			:host(.link-disabled) #panel {
+				pointer-events: none;
+			}
+
+			#image {
+				display: block;
+				transition: all .2s ease;
+				max-width: 100%;
+				background: var(--paper-image-background,
+					--default-primary-color);
+				object-fit: cover;
+
+				@apply(--paper-image-image);
+			}
+		</style>
+
 		<paper-material id="material" elevation="0" animated>
 			<a href$="[[href]]" target="[[linkTarget]]">
 				<img id="image" src="[[src]]" alt="[[title]]">
@@ -152,109 +153,98 @@ Custom property | Description | Default
 			</a>
 		</paper-material>
 	</template>
+
+	<script>
+		Polymer({
+			is: "paper-image",
+
+			properties: {
+				/** The URL the element points to. */
+				href: String,
+				/** The URL of an image. */
+				src: String,
+				/** The title of the image, displayed in a small bar at the base of
+				   the image and placed on the image's alt attribute */
+				title: String,
+				/** Information to display in the revealing panel when the user
+				   hovers over the element. */
+				info: String,
+				/** Sets the width of the image. */
+				width: {
+					type: Number,
+					observer: "_widthChanged"
+				},
+				/** Sets the height of the image. */
+				height: {
+					type: Number,
+					observer: "_heightChanged"
+				},
+
+				/** Disables the revealing panel. */
+				panelDisabled: {
+					type: Boolean,
+					observer: "_panelDisabledObserver"
+				},
+				/** Disables the elevation effect. */
+				elevationDisabled: Boolean,
+				/** Disables the revealing panel and elevation effect. */
+				disabled: {
+					type: Boolean,
+					observer: "_disabledObserver"
+				},
+				/** Disables the image link if it exists. */
+				linkDisabled: {
+					type: Boolean,
+					observer: "_linkDisabledObserver"
+				},
+				/** Sets the `target` attribute of the image link. */
+				linkTarget: {
+					type: String,
+					value: "_blank"
+				}
+			},
+			_widthChanged: function (value) {
+				if (this.height <= 0) {
+					this.$.image.style.width = "initial";
+				} else {
+					this.$.image.style.width = this.width + "px";
+				}
+			},
+			_heightChanged: function (value) {
+				if (this.height <= 0) {
+					this.$.image.style.height = "initial";
+				} else {
+					this.$.image.style.height = this.height + "px";
+				}
+			},
+			_panelDisabledObserver: function (value) {
+				this.toggleClass("panel-disabled", value);
+			},
+			_disabledObserver: function (value) {
+				this.panelDisabled = this.elevationDisabled = value;
+			},
+			_linkDisabledObserver: function (value) {
+				this.toggleClass("link-disabled", value);
+			},
+
+			listeners: {
+				"mouseover": "_mouseOver",
+				"mouseout": "_mouseOut",
+				"tap": "_onTap"
+			},
+			_mouseOver: function () {
+				if (!this.elevationDisabled) {
+					this.$.material.elevation = 1;
+				}
+			},
+			_mouseOut: function () {
+				if (!this.elevationDisabled) {
+					this.$.material.elevation = 0;
+				}
+			},
+			_onTap: function () {
+				this.fire("paper-image-tap");
+			}
+		});
+	</script>
 </dom-module>
-
-<script>
-	Polymer({
-		is: "paper-image",
-
-		properties: {
-			/** The URL the element points to. */
-			href: String,
-			/** The URL of an image. */
-			src: String,
-			/** The title of the image, displayed in a small bar at the base of
-			   the image and placed on the image's alt attribute */
-			title: String,
-			/** Information to display in the revealing panel when the user
-			   hovers over the element. */
-			info: String,
-			/** Sets the width of the image. */
-			width: {
-				type: Number,
-				observer: "_widthChanged"
-			},
-			/** Sets the height of the image. */
-			height: {
-				type: Number,
-				observer: "_heightChanged"
-			},
-
-			/** Disables the revealing panel. */
-			panelDisabled: {
-				type: Boolean,
-				observer: "_panelDisabledObserver"
-			},
-			/** Disables the elevation effect. */
-			elevationDisabled: Boolean,
-			/** Disables the revealing panel and elevation effect. */
-			disabled: {
-				type: Boolean,
-				observer: "_disabledObserver"
-			},
-			/** Disables the image link if it exists. */
-			linkDisabled: {
-				type: Boolean,
-				observer: "_linkDisabledObserver"
-			},
-			/** Sets the `target` attribute of the image link. */
-			linkTarget: {
-				type: String,
-				value: "_blank"
-			}
-		},
-		_widthChanged: function (newValue, oldValue) {
-			if (newValue > 720) {
-				this.width = 720;
-			} else if (newValue < 0) {
-				this.width = 0;
-			}
-			if (this.height === 0) {
-				this.$.image.style.width = "initial";
-			} else {
-				this.$.image.style.width = this.width + "px";
-			}
-		},
-		_heightChanged: function (newValue, oldValue) {
-			if (newValue > 480) {
-				this.height = 480;
-			} else if (newValue < 0) {
-				this.height = 0;
-			}
-			if (this.height === 0) {
-				this.$.image.style.height = "initial";
-			} else {
-				this.$.image.style.height = this.height + "px";
-			}
-		},
-		_panelDisabledObserver: function (newValue, oldValue) {
-			this.toggleClass("panel-disabled", newValue);
-		},
-		_disabledObserver: function (newValue, oldValue) {
-			this.panelDisabled = newValue;
-			this.elevationDisabled = newValue;
-		},
-		_linkDisabledObserver: function (newValue, oldValue) {
-			this.toggleClass("link-disabled", newValue);
-		},
-
-		listeners: {
-			"mouseover": "_mouseOver",
-			"mouseout": "_mouseOut",
-			"tap": "_onTap"
-		},
-		_mouseOver: function () {
-			if (!this.elevationDisabled) {
-				this.$.material.elevation = 1;
-			}
-		},
-		_mouseOut: function () {
-			if (!this.elevationDisabled) {
-				this.$.material.elevation = 0;
-			}
-		},
-		_onTap: function () {
-			this.fire("paper-image-tap");
-		}
-	});
-</script>
