@@ -1,3 +1,4 @@
 # paper-image
-An image element that displays a revealing information panel.
-View the docs [here](http://wincinderith.github.io/paper-image/).
+
+Polymer element that displays an image with a revealing panel.
+Read the docs [here](https://wincinderith.github.io/paper-image).

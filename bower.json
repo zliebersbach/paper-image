@@ -4,7 +4,7 @@
 	"authors": [
 		"Kevin Boxhoorn <kevinboxhoorn@yahoo.com>"
 	],
-	"description": "An image element that displays a revealing information panel.",
+	"description": "Polymer element that displays an image with a revealing panel.",
 	"keywords": [
 		"web-component",
 		"web-components",
