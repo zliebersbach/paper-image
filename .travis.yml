@@ -1,0 +1,10 @@
+language: node_js
+node_js: stable
+dist: trusty
+sudo: required
+addons:
+  firefox: latest
+before_script:
+- npm install -g bower web-component-tester
+- bower install
+script: xvfb-run wct
