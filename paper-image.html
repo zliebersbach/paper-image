@@ -170,15 +170,19 @@ Custom property | Description | Default
 				/** Text to display in the revealing panel when the user hovers
 				   over the element. */
 				info: String,
-				/** Width of the image. */
+				/** Width of the image. If less than or equal to 0, will have
+				   the same effect as `width: initial`. */
 				width: {
 					type: Number,
-					observer: "_widthChanged"
+					observer: "_widthChanged",
+					value: 0
 				},
-				/** Height of the image. */
+				/** Height of the image. If less than or equal to 0, will have
+				   the same effect as `height: initial`. */
 				height: {
 					type: Number,
-					observer: "_heightChanged"
+					observer: "_heightChanged",
+					value: 0
 				},
 
 				/** Whether the image is currently loading. */
