@@ -34,7 +34,7 @@ tap event can be turned off through the `disabled` attribute.
 In it's most basic form the element should be used like so:
 
     <paper-image src="demo.jpg" title="demo"
-        info="here's some demo text, here for the sole purpose of being a demo.">
+        text="here's some demo text, here for the sole purpose of being a demo.">
     </paper-image>
 
 You can set a width and height, just like the standard `img` tag:
@@ -149,7 +149,7 @@ Custom property | Description | Default
 				<img id="image" src="[[src]]" alt="[[title]]">
 				<div id="panel">
 					<p id="title"><b>{{title}}</b></p>
-					<p>{{info}}</p>
+					<p>{{text}}</p>
 				</div>
 			</a>
 		</paper-material>
@@ -176,7 +176,7 @@ Custom property | Description | Default
 				 * Text to display in the revealing panel when the user hovers
 				 * over the element.
 				 */
-				info: String,
+				text: String,
 				/**
 				 * Width of the image. Can be a number (in pixels) or a CSS
 				 * value. Overrides `--paper-image-width`.
