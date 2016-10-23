@@ -62,9 +62,12 @@ Custom property | Description | Default
 `--paper-image-background` | Background color of the panel | `--primary-color`
 `--paper-image-background-revealed` | Background color of the panel when revealed | `--primary-color`
 `--paper-image-font` | Text font | `inherit`
+`--paper-image-height` | Image height | `auto`
 `--paper-image-image` | Mixin applied to the image | `{}`
 `--paper-image-panel` | Mixin applied to the panel | `{}`
 `--paper-image-panel-revealed` | Mixin applied to the panel when revealed | `{}`
+`--paper-image-width` | Image width | `auto`
+
 @demo
 -->
 <dom-module id="paper-image">
@@ -73,7 +76,6 @@ Custom property | Description | Default
 			:host {
 				display: inline-block;
 				margin: 8px;
-				max-width: 100%;
 			}
 			a[href] :host {
 				cursor: pointer;
@@ -133,7 +135,8 @@ Custom property | Description | Default
 			#image {
 				display: block;
 				transition: all .2s ease;
-				max-width: 100%;
+				width: var(--paper-image-width, auto);
+				height: var(--paper-image-height, auto);
 				background: var(--paper-image-background, --primary-color);
 				object-fit: cover;
 
@@ -164,25 +167,33 @@ Custom property | Description | Default
 					type: String,
 					observer: "_srcChanged"
 				},
-				/** The title of the image, displayed in a small bar at the base
-				   of the image and placed on the image's alt attribute */
+				/**
+				 * The title of the image, displayed in a small bar at the base
+				 * of the image and placed on the image's alt attribute.
+				 */
 				title: String,
-				/** Text to display in the revealing panel when the user hovers
-				   over the element. */
+				/**
+				 * Text to display in the revealing panel when the user hovers
+				 * over the element.
+				 */
 				info: String,
-				/** Width of the image. If less than or equal to 0, will have
-				   the same effect as `width: initial`. */
+				/**
+				 * Width of the image. Can be a number (in pixels) or a CSS
+				 * value. Overrides `--paper-image-width`.
+				 */
 				width: {
 					type: Number,
 					observer: "_widthChanged",
-					value: 0
+					value: null
 				},
-				/** Height of the image. If less than or equal to 0, will have
-				   the same effect as `height: initial`. */
+				/**
+				 * Height of the image. Can be a number (in pixels) or a CSS
+				 * value. Overrides `--paper-image-height`.
+				 */
 				height: {
 					type: Number,
 					observer: "_heightChanged",
-					value: 0
+					value: null
 				},
 
 				/** Whether the image is currently loading. */
@@ -227,8 +238,10 @@ Custom property | Description | Default
 					type: Boolean,
 					value: false
 				},
-				/** Disables the revealing panel, elevation effect and link, as
-				   well as the tap event. */
+				/**
+				 * Disables the revealing panel, elevation effect and link, as
+				 * well as the tap event.
+				 */
 				disabled: {
 					type: Boolean,
 					observer: "_disabledObserver",
@@ -241,18 +254,16 @@ Custom property | Description | Default
 				this._setLoaded(false);
 			},
 			_widthChanged: function (value) {
-				if (value <= 0) {
-					this.$.image.style.width = "initial";
-				} else {
-					this.$.image.style.width = value + "px";
-				}
+				if (!value) return;
+				let prop = isNaN(value) ? value : value + "px";
+				this.customStyle["--paper-image-width"] = prop;
+				this.updateStyles();
 			},
 			_heightChanged: function (value) {
-				if (value <= 0) {
-					this.$.image.style.height = "initial";
-				} else {
-					this.$.image.style.height = value + "px";
-				}
+				if (!value) return;
+				let prop = isNaN(value) ? value : value + "px";
+				this.customStyle["--paper-image-height"] = prop;
+				this.updateStyles();
 			},
 			_linkDisabledObserver: function (value) {
 				this.toggleClass("link-disabled", value);
