@@ -287,6 +287,10 @@ Custom property | Description | Default
 				if (!this.elevationDisabled)
 					this.$.material.elevation = 0;
 			},
+			/**
+			 * Fired when the user taps on the element.
+			 * @event paper-image-tap
+			 */
 			_onTap: function () {
 				if (!this.disabled)
 					this.fire("paper-image-tap");
