@@ -128,15 +128,12 @@ Custom property | Description | Default
 				overflow: hidden;
 				position: relative;
 			}
-			:host(.link-disabled) #panel {
-				pointer-events: none;
-			}
 
 			#image {
 				display: block;
 				transition: all .2s ease;
-				width: var(--paper-image-width, auto);
-				height: var(--paper-image-height, auto);
+				max-width: 100%; width: var(--paper-image-width, auto);
+				max-height: 100%; height: var(--paper-image-height, auto);
 				background: var(--paper-image-background, --primary-color);
 				object-fit: cover;
 
@@ -145,7 +142,7 @@ Custom property | Description | Default
 		</style>
 
 		<paper-material id="material" elevation="0" animated>
-			<a href$="[[href]]" target="[[linkTarget]]">
+			<a id="link" href$="[[href]]" target="[[linkTarget]]">
 				<img id="image" src="[[src]]" alt="[[title]]">
 				<div id="panel">
 					<p id="title"><b>{{title}}</b></p>
@@ -224,13 +221,13 @@ Custom property | Description | Default
 				/** Disables the image link if it exists. */
 				linkDisabled: {
 					type: Boolean,
-					observer: "_linkDisabledObserver",
+					observer: "_linkDisabledChanged",
 					value: false
 				},
 				/** Disables the revealing panel. */
 				panelDisabled: {
 					type: Boolean,
-					observer: "_panelDisabledObserver",
+					observer: "_panelDisabledChanged",
 					value: false
 				},
 				/** Disables the elevation effect. */
@@ -244,7 +241,7 @@ Custom property | Description | Default
 				 */
 				disabled: {
 					type: Boolean,
-					observer: "_disabledObserver",
+					observer: "_disabledChanged",
 					value: false
 				}
 			},
@@ -265,13 +262,13 @@ Custom property | Description | Default
 				this.customStyle["--paper-image-height"] = prop;
 				this.updateStyles();
 			},
-			_linkDisabledObserver: function (value) {
-				this.toggleClass("link-disabled", value);
+			_linkDisabledChanged: function(value) {
+				this.$.link.onclick = value ? () => false : undefined;
 			},
-			_panelDisabledObserver: function (value) {
+			_panelDisabledChanged: function(value) {
 				this.toggleClass("panel-disabled", value);
 			},
-			_disabledObserver: function (value) {
+			_disabledChanged: function(value) {
 				this.linkDisabled = this.panelDisabled = this.elevationDisabled = value;
 			},
 
