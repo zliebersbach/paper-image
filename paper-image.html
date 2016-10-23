@@ -157,25 +157,25 @@ Custom property | Description | Default
 			is: "paper-image",
 
 			properties: {
-				/** The URL the element points to. */
+				/** Link URL. */
 				href: String,
-				/** The URL of an image. */
+				/** Image URL. */
 				src: {
 					type: String,
 					observer: "_srcChanged"
 				},
-				/** The title of the image, displayed in a small bar at the base of
-				   the image and placed on the image's alt attribute */
+				/** The title of the image, displayed in a small bar at the base
+				   of the image and placed on the image's alt attribute */
 				title: String,
-				/** Information to display in the revealing panel when the user
-				   hovers over the element. */
+				/** Text to display in the revealing panel when the user hovers
+				   over the element. */
 				info: String,
-				/** Sets the width of the image. */
+				/** Width of the image. */
 				width: {
 					type: Number,
 					observer: "_widthChanged"
 				},
-				/** Sets the height of the image. */
+				/** Height of the image. */
 				height: {
 					type: Number,
 					observer: "_heightChanged"
@@ -204,27 +204,31 @@ Custom property | Description | Default
 					value: false
 				},
 
-				/** Disables the revealing panel. */
-				panelDisabled: {
-					type: Boolean,
-					observer: "_panelDisabledObserver"
-				},
-				/** Disables the elevation effect. */
-				elevationDisabled: Boolean,
-				/** Disables the revealing panel and elevation effect. */
-				disabled: {
-					type: Boolean,
-					observer: "_disabledObserver"
-				},
+				/** `target` attribute of the link. */
+				linkTarget: String,
 				/** Disables the image link if it exists. */
 				linkDisabled: {
 					type: Boolean,
-					observer: "_linkDisabledObserver"
+					observer: "_linkDisabledObserver",
+					value: false
 				},
-				/** Sets the `target` attribute of the image link. */
-				linkTarget: {
-					type: String,
-					value: "_blank"
+				/** Disables the revealing panel. */
+				panelDisabled: {
+					type: Boolean,
+					observer: "_panelDisabledObserver",
+					value: false
+				},
+				/** Disables the elevation effect. */
+				elevationDisabled: {
+					type: Boolean,
+					value: false
+				},
+				/** Disables the revealing panel, elevation effect and link, as
+				   well as the tap event. */
+				disabled: {
+					type: Boolean,
+					observer: "_disabledObserver",
+					value: false
 				}
 			},
 			_srcChanged: function() {
@@ -246,14 +250,14 @@ Custom property | Description | Default
 					this.$.image.style.height = value + "px";
 				}
 			},
+			_linkDisabledObserver: function (value) {
+				this.toggleClass("link-disabled", value);
+			},
 			_panelDisabledObserver: function (value) {
 				this.toggleClass("panel-disabled", value);
 			},
 			_disabledObserver: function (value) {
-				this.panelDisabled = this.elevationDisabled = value;
-			},
-			_linkDisabledObserver: function (value) {
-				this.toggleClass("link-disabled", value);
+				this.linkDisabled = this.panelDisabled = this.elevationDisabled = value;
 			},
 
 			listeners: {
@@ -272,17 +276,16 @@ Custom property | Description | Default
 				this._setLoaded(true);
 			},
 			_onMouseOver: function () {
-				if (!this.elevationDisabled) {
+				if (!this.elevationDisabled)
 					this.$.material.elevation = 1;
-				}
 			},
 			_onMouseOut: function () {
-				if (!this.elevationDisabled) {
+				if (!this.elevationDisabled)
 					this.$.material.elevation = 0;
-				}
 			},
 			_onTap: function () {
-				this.fire("paper-image-tap");
+				if (!this.disabled)
+					this.fire("paper-image-tap");
 			}
 		});
 	</script>
