@@ -29,13 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	<style is="custom-style">
 		paper-image.styled {
-			--paper-image-color: #FFFFFF;
-			--paper-image-color-revealed: #212121;
-			--paper-image-background: #212121;
-			--paper-image-background-revealed: #FFFFFF;
-			--paper-image-panel-revealed: {
-				height: 25%;
-			};
+			--paper-image-width: 192px;
+			--paper-image-height: 192px;
 		}
 	</style>
 </head>
@@ -90,15 +85,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				paperImage.src = "demo-error.jpg";
 			});
 
-			test("can set width through property", () => {
+			test("can be sized", () => {
 				paperImage.src = "demo.jpg";
-				paperImage.width = 192;
+				paperImage.width = paperImage.height = 192;
 				expect(paperImage.getBoundingClientRect().width).to.equal(192);
-			});
-
-			test("can set height through property", () => {
-				paperImage.src = "demo.jpg";
-				paperImage.height = 192;
 				expect(paperImage.getBoundingClientRect().height).to.equal(192);
 			});
 
@@ -124,12 +114,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				styledPaperImage = fixture("paper-image-styled");
 			});
 
-			test("applies custom CSS properties", () => {
-
-			});
-
-			test("hover works", () => {
-
+			test("can be sized using CSS properties", () => {
+				expect(styledPaperImage.getBoundingClientRect().width).to.equal(192);
+				expect(styledPaperImage.getBoundingClientRect().height).to.equal(192);
 			});
 		})
 	</script>
