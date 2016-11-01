@@ -10,3 +10,8 @@ before_script:
 - npm install -g bower web-component-tester
 - bower install
 script: xvfb-run wct
+after_success:
+- git clone https://github.com/Polymer/tools.git
+- mkdir tmp
+- cd tmp
+- ../tools/bin/gp.sh ${TRAVIS_REPO_SLUG/\// }
