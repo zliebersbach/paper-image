@@ -11,7 +11,12 @@ before_script:
 - bower install
 script: xvfb-run wct
 after_success:
-- git clone https://github.com/Polymer/tools.git
+- openssl aes-256-cbc -K $encrypted_9c4566ee947d_key -iv $encrypted_9c4566ee947d_iv -in .travis/key_deploy.tar.gz.enc -out .travis/key_deploy.tar.gz -d # decrypt deploy key
+- tar -xvzf .travis/key_deploy.tar.gz -C .travis # extract deploy key
+- eval "$(ssh-agent -s)" # start the ssh agent
+- chmod 600 .travis/key_deploy
+- ssh-add .travis/key_deploy # add deploy key to agent
+- git clone https://github.com/Polymer/tools.git # clone polymer tools
 - mkdir tmp
 - cd tmp
-- ../tools/bin/gp.sh ${TRAVIS_REPO_SLUG/\// }
+- ../tools/bin/gp.sh ${TRAVIS_REPO_SLUG/\// } # publish gh-pages
