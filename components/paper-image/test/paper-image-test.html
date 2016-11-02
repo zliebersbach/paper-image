@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- @license
+paper-image, a Polymer element that displays an image with a revealing panel.
+Copyright (C) 2016  Kevin Boxhoorn
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+	<script src="../../iron-test-helpers/mock-interactions.js"></script>
+	<link rel="import" href="../paper-image.html">
+
+	<style is="custom-style">
+		paper-image.styled {
+			--paper-image-width: 192px;
+			--paper-image-height: 192px;
+		}
+	</style>
+</head>
+<body>
+	<test-fixture id="paper-image">
+		<template>
+			<paper-image></paper-image>
+		</template>
+	</test-fixture>
+
+	<test-fixture id="paper-image-styled">
+		<template>
+			<paper-image class="styled" src="demo.jpg"></paper-image>
+		</template>
+	</test-fixture>
+
+	<script>
+		suite("core tests", () => {
+			let paperImage;
+			setup(() => {
+				paperImage = fixture("paper-image");
+			});
+
+			test("loads an image", () => {
+				paperImage.src = "demo.jpg";
+				expect(paperImage.$.image.src).to.string("demo.jpg");
+			});
+
+			test("updates loading property properly", () => {
+				expect(paperImage.loading).to.not.be.ok;
+				paperImage.src = "demo.jpg";
+				expect(paperImage.loading).to.be.ok;
+			});
+
+			test("updates loaded property when the image loads", (done) => {
+				paperImage.addEventListener("loaded-changed", () => {
+					expect(paperImage.loaded).to.be.ok;
+					expect(paperImage.error).to.not.be.ok;
+					done();
+				});
+				expect(paperImage.loaded).to.not.be.ok;
+				paperImage.src = "demo.jpg";
+			});
+
+			test("updates error property when the image fails to load", (done) => {
+				paperImage.addEventListener("error-changed", () => {
+					expect(paperImage.error).to.be.ok;
+					expect(paperImage.loaded).to.not.be.ok;
+					done();
+				});
+				expect(paperImage.error).to.not.be.ok;
+				paperImage.src = "demo-error.jpg";
+			});
+
+			test("can be sized", () => {
+				paperImage.src = "demo.jpg";
+				paperImage.width = paperImage.height = 192;
+				expect(paperImage.getBoundingClientRect().width).to.equal(192);
+				expect(paperImage.getBoundingClientRect().height).to.equal(192);
+			});
+
+			test("fires tap event", (done) => {
+				paperImage.addEventListener("paper-image-tap", () => done());
+				MockInteractions.tap(paperImage);
+			});
+
+			test("does not fire tap event when disabled", (done) => {
+				let tapped = false;
+				paperImage.addEventListener("paper-image-tap", () => {
+					tapped = true;
+				});
+				paperImage.disabled = true;
+				MockInteractions.tap(paperImage);
+				setTimeout(() => done(tapped ? new Error() : undefined), 10);
+			});
+		});
+
+		suite("style tests", () => {
+			let styledPaperImage;
+			setup(() => {
+				styledPaperImage = fixture("paper-image-styled");
+			});
+
+			test("can be sized using CSS properties", () => {
+				expect(styledPaperImage.getBoundingClientRect().width).to.equal(192);
+				expect(styledPaperImage.getBoundingClientRect().height).to.equal(192);
+			});
+		})
+	</script>
+</body>
+</html>

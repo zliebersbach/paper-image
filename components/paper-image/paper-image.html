@@ -1,0 +1,307 @@
+<!doctype html>
+<!-- @license
+paper-image, a Polymer element that displays an image with a revealing panel.
+Copyright (C) 2016  Kevin Boxhoorn
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+Polymer element that displays an image with a revealing panel. It also lifts off
+the page when the user hovers over it.
+
+The panel can be disabled with `panel-disabled` and the elevation effect can be
+disabled with `elevation-disabled`. The element's link can also be disabled
+through the `link-disabled` attribute. Otherwise, all of these features and the
+tap event can be turned off through the `disabled` attribute.
+
+### Examples
+
+In it's most basic form the element should be used like so:
+
+    <paper-image src="demo.jpg" title="demo"
+        text="here's some demo text, here for the sole purpose of being a demo.">
+    </paper-image>
+
+You can set a width and height, just like the standard `img` tag:
+
+    <paper-image src="demo.jpg" height="256" width="512">
+    </paper-image>
+
+There is also a `href` attribute that turns the `paper-image` into a link:
+
+    <paper-image src="demo.jpg" href="//example.com">
+    </paper-image>
+
+Here is an example of the `disabled` attribute:
+
+    <paper-image src="demo.jpg" disabled></paper-image>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-image-color` | Text color | `--accent-color`
+`--paper-image-color-revealed` | Text color when revealed | `--accent-color`
+`--paper-image-background` | Background color of the panel | `--primary-color`
+`--paper-image-background-revealed` | Background color of the panel when revealed | `--primary-color`
+`--paper-image-font` | Text font | `inherit`
+`--paper-image-height` | Image height | `auto`
+`--paper-image-image` | Mixin applied to the image | `{}`
+`--paper-image-panel` | Mixin applied to the panel | `{}`
+`--paper-image-panel-revealed` | Mixin applied to the panel when revealed | `{}`
+`--paper-image-width` | Image width | `auto`
+
+@demo
+-->
+<dom-module id="paper-image">
+	<template>
+		<style>
+			:host {
+				display: inline-block;
+				margin: 8px;
+			}
+			a[href] :host {
+				cursor: pointer;
+			}
+
+			p {
+				padding: 8px; margin: 0;
+			}
+			#title {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				max-width: calc(100% - 16px);
+			}
+			#panel {
+				position: absolute;
+				left: 0; bottom: 0; right: 0;
+				height: calc(1em + 16px);
+
+				font-family: var(--paper-image-font, inherit);
+				text-align: center;
+				background: var(--paper-image-background, --primary-color);
+				color: var(--paper-image-color, --accent-color);
+
+				transition: height .2s ease, background .2s ease;
+
+				@apply(--paper-image-panel);
+			}
+			@media only screen and (min-width: 752px) {
+				:host:hover #panel {
+					height: 50%;
+					background: var(--paper-image-background-revealed,
+						--primary-color);
+					color: var(--paper-image-color-revealed, --accent-color);
+
+					@apply(--paper-image-panel-revealed);
+				}
+			}
+			:host(.panel-disabled) #panel {
+				display: none;
+			}
+
+			a, a:link, a:visited, a:hover, a:active {
+				color: var(--paper-image-color, --accent-color);
+				text-decoration: none;
+			}
+
+			#material {
+				border-radius: 2px;
+				overflow: hidden;
+				position: relative;
+			}
+
+			#image {
+				display: block;
+				transition: all .2s ease;
+				max-width: 100%; width: var(--paper-image-width, auto);
+				height: var(--paper-image-height, auto);
+				background: var(--paper-image-background, --primary-color);
+				object-fit: cover;
+
+				@apply(--paper-image-image);
+			}
+		</style>
+
+		<paper-material id="material" elevation="0" animated>
+			<a id="link" href$="[[href]]" target="[[linkTarget]]">
+				<img id="image" src="[[src]]" alt="[[title]]">
+				<div id="panel">
+					<p id="title"><b>{{title}}</b></p>
+					<p>{{text}}</p>
+				</div>
+			</a>
+		</paper-material>
+	</template>
+
+	<script>
+		Polymer({
+			is: "paper-image",
+
+			properties: {
+				/** Link URL. */
+				href: String,
+				/** Image URL. */
+				src: {
+					type: String,
+					observer: "_srcChanged"
+				},
+				/**
+				 * The title of the image, displayed in a small bar at the base
+				 * of the image and placed on the image's alt attribute.
+				 */
+				title: String,
+				/**
+				 * Text to display in the revealing panel when the user hovers
+				 * over the element.
+				 */
+				text: String,
+				/**
+				 * Width of the image. Can be a number (in pixels) or a CSS
+				 * value. Overrides `--paper-image-width`.
+				 */
+				width: {
+					type: Number,
+					observer: "_widthChanged",
+					value: null
+				},
+				/**
+				 * Height of the image. Can be a number (in pixels) or a CSS
+				 * value. Overrides `--paper-image-height`.
+				 */
+				height: {
+					type: Number,
+					observer: "_heightChanged",
+					value: null
+				},
+
+				/** Whether the image is currently loading. */
+				loading: {
+					type: Boolean,
+					reflectToAttribute: true,
+					readOnly: true,
+					notify: true,
+					value: false
+				},
+				/** Whether the image failed to load. */
+				error: {
+					type: Boolean,
+					readOnly: true,
+					notify: true,
+					value: false
+				},
+				/** Whether the image has loaded. */
+				loaded: {
+					type: Boolean,
+					readOnly: true,
+					notify: true,
+					value: false
+				},
+
+				/** `target` attribute of the link. */
+				linkTarget: String,
+				/** Disables the image link if it exists. */
+				linkDisabled: {
+					type: Boolean,
+					observer: "_linkDisabledChanged",
+					value: false
+				},
+				/** Disables the revealing panel. */
+				panelDisabled: {
+					type: Boolean,
+					observer: "_panelDisabledChanged",
+					value: false
+				},
+				/** Disables the elevation effect. */
+				elevationDisabled: {
+					type: Boolean,
+					value: false
+				},
+				/**
+				 * Disables the revealing panel, elevation effect and link, as
+				 * well as the tap event.
+				 */
+				disabled: {
+					type: Boolean,
+					observer: "_disabledChanged"
+				}
+			},
+			_srcChanged: function() {
+				this._setLoading(true);
+				this._setError(false);
+				this._setLoaded(false);
+			},
+			_widthChanged: function (value) {
+				if (!value) return;
+				let prop = isNaN(value) ? value : value + "px";
+				this.customStyle["--paper-image-width"] = prop;
+				this.updateStyles();
+			},
+			_heightChanged: function (value) {
+				if (!value) return;
+				let prop = isNaN(value) ? value : value + "px";
+				this.customStyle["--paper-image-height"] = prop;
+				this.updateStyles();
+			},
+			_linkDisabledChanged: function(value) {
+				this.$.link.onclick = value ? () => false : undefined;
+			},
+			_panelDisabledChanged: function(value) {
+				this.toggleClass("panel-disabled", value);
+			},
+			_disabledChanged: function(value) {
+				this.linkDisabled = this.panelDisabled = this.elevationDisabled = value;
+			},
+
+			listeners: {
+				"image.error": "_onError",
+				"image.load": "_onLoad",
+				"mouseover": "_onMouseOver",
+				"mouseout": "_onMouseOut",
+				"tap": "_onTap"
+			},
+			_onError: function() {
+				this._setLoading(false);
+				this._setError(true);
+			},
+			_onLoad: function() {
+				this._setLoading(false);
+				this._setLoaded(true);
+			},
+			_onMouseOver: function () {
+				if (!this.elevationDisabled)
+					this.$.material.elevation = 1;
+			},
+			_onMouseOut: function () {
+				if (!this.elevationDisabled)
+					this.$.material.elevation = 0;
+			},
+			/**
+			 * Fired when the user taps on the element.
+			 * @event paper-image-tap
+			 */
+			_onTap: function () {
+				if (!this.disabled)
+					this.fire("paper-image-tap");
+			}
+		});
+	</script>
+</dom-module>
